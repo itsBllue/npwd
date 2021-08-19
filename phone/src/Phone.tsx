@@ -67,7 +67,7 @@ function Phone() {
   useTwitterService();
   useMarketplaceService();
   useBankService();
-  useMessagesService();
+  /*   useMessagesService(); */
   /*usePhotoService();*/
   useCallService();
   useDialService();

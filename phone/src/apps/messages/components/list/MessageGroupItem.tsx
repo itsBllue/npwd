@@ -7,7 +7,7 @@ import {
   Badge,
 } from '@material-ui/core';
 
-import { MessageConversation, MessageGroup } from '../../../../../../typings/messages';
+import { MessageConversation } from '../../../../../../typings/messages';
 interface IProps {
   messageConversation: MessageConversation;
   handleClick: (conversations: MessageConversation) => () => void;

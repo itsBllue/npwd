@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Slide, Paper, Typography, Button, Box } from '@material-ui/core';
+import { Slide, Paper, Typography, Button, Box, IconButton, Tooltip } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import useStyles from './modal.styles';
@@ -10,8 +10,13 @@ import { useNuiRequest } from 'fivem-nui-react-lib';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useContactActions } from '../../../contacts/hooks/useContactActions';
-import { useMyPhoneNumber } from '../../../../os/simcard/hooks/useMyPhoneNumber';
 import { MessageEvents } from '../../../../../../typings/messages';
+import Modal from '../../../../ui/components/Modal';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { fetchNui } from '../../../../utils/fetchNui';
+import { ServerPromiseResp } from '../../../../../../typings/common';
+import { useSnackbar } from '../../../../ui/hooks/useSnackbar';
+import { useMessageActions } from '../../hooks/useMessageActions';
 
 const LARGE_HEADER_CHARS = 30;
 const MAX_HEADER_CHARS = 80;
@@ -19,17 +24,23 @@ const MINIMUM_LOAD_TIME = 600;
 
 export const MessageModal = () => {
   const Nui = useNuiRequest();
+  const { t } = useTranslation();
   const classes = useStyles();
+  const { addAlert } = useSnackbar();
   const history = useHistory();
   const { pathname } = useLocation();
   const { groupId } = useParams<{ groupId: string }>();
   const { messages, setMessages, activeMessageConversation, setActiveMessageConversation } =
     useMessages();
   const { getContactByNumber, getDisplayByNumber } = useContactActions();
+  const { removeConversation } = useMessageActions();
 
   const [isLoaded, setLoaded] = useState(false);
+  const [groupActionsOpen, setGroupActionsOpen] = useState(false);
 
   useEffect(() => {
+    console.log('active', activeMessageConversation);
+    console.log('messages', messages);
     if (activeMessageConversation && messages) {
       setTimeout(() => {
         setLoaded(true);
@@ -41,6 +52,7 @@ export const MessageModal = () => {
 
   const closeModal = () => {
     history.push('/messages');
+    // TODO: Test in-game. Might only be a browser issue because of mock data?
     setMessages(null);
   };
 
@@ -84,12 +96,36 @@ export const MessageModal = () => {
     return history.push(`/contacts/-1/?addNumber=${number}&referal=${referal}`);
   };
 
+  const handleDeleteConversation = () => {
+    fetchNui<ServerPromiseResp<void>>(MessageEvents.DELETE_CONVERSATION, {
+      conversationId: groupId,
+    }).then((resp) => {
+      if (resp.status !== 'ok') {
+        return addAlert({
+          message: t('APPS_MESSAGES_DELETE_CONVERSATION_FAILED'),
+          type: 'error',
+        });
+      }
+
+      history.push('/messages');
+      removeConversation(groupId);
+    });
+  };
+
   const targetNumber = activeMessageConversation.phoneNumber;
 
   return (
     <div>
+      <Modal visible={groupActionsOpen} handleClose={() => setGroupActionsOpen(false)}>
+        <Box>
+          <Button variant="contained" color="primary" onClick={handleDeleteConversation}>
+            {t('APPS_MESSAGES_DELETE_CONVERSATION')}
+          </Button>
+        </Box>
+      </Modal>
       <Slide direction="left" in={!!activeMessageConversation}>
         <Paper className={classes.modalRoot}>
+          <div className={groupActionsOpen ? classes.backgroundModal : undefined} />
           <Paper className={classes.conversationHeader}>
             <Box display="flex" justifyContent="space-between">
               <Button onClick={closeModal}>
@@ -98,6 +134,15 @@ export const MessageModal = () => {
               <Typography variant="h5" className={headerClass}>
                 {header}
               </Typography>
+              <Tooltip
+                classes={{ tooltip: classes.tooltip }}
+                title={t('APPS_MESSAGES_ACTIONS_TITLE')}
+                placement="left"
+              >
+                <IconButton onClick={() => setGroupActionsOpen(true)}>
+                  <MoreVertIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
               {getDisplayByNumber(targetNumber) === targetNumber ? (
                 <Button>
                   <PersonAddIcon onClick={() => handleAddContact(targetNumber)} fontSize="large" />

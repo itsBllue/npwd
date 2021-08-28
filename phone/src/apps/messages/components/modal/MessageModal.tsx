@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Slide, Paper, Typography, Button, Box, IconButton, Tooltip } from '@material-ui/core';
+import {
+  Slide,
+  Paper,
+  Typography,
+  Button,
+  Box,
+  IconButton,
+  Tooltip,
+  CircularProgress,
+} from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import useStyles from './modal.styles';
@@ -75,6 +84,14 @@ export const MessageModal = () => {
       });
     }
   }, [activeMessageConversation, Nui]);*/
+
+  // We need to wait for the active conversation to be set.
+  if (!activeMessageConversation)
+    return (
+      <div>
+        <CircularProgress />
+      </div>
+    );
 
   // don't allow too many characters, it takes too much room
   let header = activeMessageConversation.display || activeMessageConversation.phoneNumber;

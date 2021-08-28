@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Paper, Box, makeStyles, Button } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import ImageIcon from '@material-ui/icons/Image';
-import { MessageEvents, PreDBMessage } from '../../../../../../typings/messages';
+import { Message, MessageEvents, PreDBMessage } from '../../../../../../typings/messages';
 import { TextField } from '../../../../ui/components/Input';
 import { fetchNui } from '../../../../utils/fetchNui';
 import { useSnackbar } from '../../../../ui/hooks/useSnackbar';
@@ -30,7 +30,7 @@ const MessageInput = ({ messageConversationId, onAddImageClick }: IProps) => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (message.trim()) {
-      fetchNui<ServerPromiseResp<PreDBMessage>>(MessageEvents.SEND_MESSAGE, {
+      fetchNui<ServerPromiseResp<Message>>(MessageEvents.SEND_MESSAGE, {
         conversationId: messageConversationId,
         message,
       }).then((resp) => {

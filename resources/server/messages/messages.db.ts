@@ -1,6 +1,5 @@
 import { pool } from '../db';
 import { Message, UnformattedMessageConversation } from '../../../typings/messages';
-import { config } from '../server';
 
 export class _MessagesDB {
   /**
@@ -18,8 +17,6 @@ export class _MessagesDB {
                    VALUES (?, ?, ?)`;
 
     const [results] = await pool.query(query, [author, message, conversationId]);
-
-    console.log('messsage result', results);
 
     return <UnformattedMessageConversation[]>results;
   }

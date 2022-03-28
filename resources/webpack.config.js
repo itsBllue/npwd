@@ -19,31 +19,31 @@ const server = () => {
     new webpack.IgnorePlugin(/^cardinal$/, /./),
   ];
 
-  if (process.env.IS_SENTRY) {
-    plugins.push(
-      new SentryCliPlugin({
-        url: 'https://sentry.projecterror.dev',
-        release: process.env.npm_package_version,
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-        org: 'project-error',
-        project: 'npwd-s',
-        include: ['dist/server'],
-        ignore: ['node_modules'],
-        validate: true,
-        integrations: [
-          new RewriteFrames({
-            //   root: rootDir,
-            //   iteratee: (frame) => {
-            //     if (!frame.filename || frame.filename === '') return frame;
-            //
-            //     frame.filename = frame.filename = frame.filename.replace('@npwd', '');
-            //     return frame;
-            //   },
-          }),
-        ],
-      }),
-    );
-  }
+  // if (process.env.IS_SENTRY) {
+  //   plugins.push(
+  //     new SentryCliPlugin({
+  //       url: 'https://sentry.projecterror.dev',
+  //       release: process.env.npm_package_version,
+  //       authToken: process.env.SENTRY_AUTH_TOKEN,
+  //       org: 'project-error',
+  //       project: 'npwd-s',
+  //       include: ['dist/server'],
+  //       ignore: ['node_modules'],
+  //       validate: true,
+  //       integrations: [
+  //         new RewriteFrames({
+  //           //   root: rootDir,
+  //           //   iteratee: (frame) => {
+  //           //     if (!frame.filename || frame.filename === '') return frame;
+  //           //
+  //           //     frame.filename = frame.filename = frame.filename.replace('@npwd', '');
+  //           //     return frame;
+  //           //   },
+  //         }),
+  //       ],
+  //     }),
+  //   );
+  // }
 
   return {
     entry: './server/server.ts',

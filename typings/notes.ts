@@ -1,6 +1,6 @@
 import { IAlertProps } from './alerts';
 
-export type AlertCategory =
+export type NotesAlertCategory =
   | 'NOTES_ADD_SUCCESS'
   | 'NOTES_ADD_FAILED'
   | 'NOTES_UPDATE_SUCCESS'
@@ -9,8 +9,8 @@ export type AlertCategory =
   | 'NOTES_DELETE_FAILED';
 
 export interface INotesAlert {
-  alert: AlertCategory;
-  setAlert: (type: AlertCategory) => void;
+  alert: NotesAlertCategory;
+  setAlert: (type: NotesAlertCategory) => void;
 }
 
 export interface BeforeDBNote {
@@ -33,12 +33,10 @@ export enum NotesEvents {
   FETCH_ALL_NOTES = 'npwd:fetchAllNotes',
   DELETE_NOTE = 'npwd:deleteNote',
   UPDATE_NOTE = 'npwd:updateNote',
+  ADD_NOTE_EXPORT = 'npwd:addNoteExport',
 }
 
-export interface NoteServerResponse<T = unknown> {
-  alert?: IAlertProps;
-  action: 'SEND' | 'UPDATE' | 'DELETE' | 'ADD';
-  suceeded: boolean;
-  refetch?: boolean;
-  data?: T;
+export interface AddNoteExportData {
+  title?: string;
+  content?: string;
 }

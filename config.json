@@ -1,42 +1,39 @@
 {
-  "Locale": "en",
   "PhoneAsItem": {
     "enabled": false,
     "exportResource": "my-core-resource",
-    "exportName": "myCheckerFunction"
+    "exportFunction": "myCheckerFunction"
   },
   "general": {
-    "useDashNumber": true,
-    "enableMultiChar": false
+    "useResourceIntegration": false,
+    "toggleKey": "f1",
+    "toggleCommand": "phone",
+    "defaultLanguage": "en"
+  },
+  "profanityFilter": {
+    "enabled": false,
+    "badWords": ["esx"]
   },
   "database": {
     "useIdentifierPrefix": false,
     "playerTable": "users",
-    "identifierColumn": "identifier"
-  },
-  "twitter": {
-    "showNotifications": true,
-    "generateProfileNameFromUsers": true,
-    "allowEditableProfileName": true,
-    "allowDeleteTweets": true,
-    "allowReportTweets": true,
-    "characterLimit": 160,
-    "newLineLimit": 10,
-    "enableAvatars": true,
-    "enableEmojis": true,
-    "enableImages": true,
-    "maxImages": 3
-  },
-  "match": {
-    "generateProfileNameFromUsers": true,
-    "allowEditableProfileName": true
-  },
-  "bank": {
-    "showNotifications": true
+    "identifierColumn": "identifier",
+    "identifierType": "license",
+    "profileQueries": true,
+    "phoneNumberColumn": "phone_number"
   },
   "debug": {
-    "level": "silly",
+    "level": "error",
     "enabled": true,
     "sentryEnabled": true
+  },
+  "defaultContacts": [],
+  "disabledApps": [],
+  "apps": ["pefcl"],
+  "voiceMessage": {
+    "enabled": false,
+    "authorizationHeader": "PE-Secret",
+    "url": "",
+    "returnedDataIndexes": ["url"]
   }
 }

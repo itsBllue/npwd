@@ -12,10 +12,23 @@ export interface MarketplaceListingBase {
   description: string;
 }
 
+export enum MarketplaceDatabaseLimits {
+  title = 255,
+  description = 255,
+  url = 255,
+}
+
+export enum MarketplaceResp {
+  CREATE_FAILED = 'MARKETPLACE.FEEDBACK.CREATE_LISTING_FAILED',
+  DUPLICATE = 'MARKETPLACE.FEEDBACK.DUPLICATE_LISTING',
+  INVALID_IMAGE_HOST = 'GENERIC_INVALID_IMAGE_HOST',
+}
+
 export enum MarketplaceEvents {
   ADD_LISTING = 'npwd:addListing',
   FETCH_LISTING = 'npwd:fetchAllListings',
   DELETE_LISTING = 'npwd:marketplaceDeleteListing',
+  DELETE_LISTINGS_ON_DROP = 'npwd:marketplaceDeleteListingsOnDrop',
   REPORT_LISTING = 'npwd:reportListing',
   BROADCAST_ADD = 'npwd:sendMarketplaceBroadcastAdd',
   BROADCAST_DELETE = 'npwd:sendMarketplaceBroadcastDelete',
@@ -32,3 +45,10 @@ export interface MarketplaceDeleteDTO {
 export interface MarketplaceReportDTO {
   id: number;
 }
+
+export type ReportListingDTO = {
+  id: number;
+  title: string;
+  description: string;
+  url: string;
+};

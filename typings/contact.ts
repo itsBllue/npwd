@@ -20,15 +20,29 @@ export interface ContactDeleteDTO {
   id: number;
 }
 
+export enum ContactResp {
+  ADD_FAILED = 'CONTACT.FEEDBACK.ADD_FAILED',
+  UPDATE_FAILED = 'CONTACT.FEEDBACK.UPDATE_FAILED',
+  INVALID_HOST = 'GENERIC_INVALID_IMAGE_HOST',
+}
+
 export enum ContactsDatabaseLimits {
-  avatar = 512,
-  number = 12,
+  avatar = 255,
+  number = 20,
   display = 255,
 }
 
 export enum ContactEvents {
-  GET_CONTACTS = 'npwd:getContacts',
-  ADD_CONTACT = 'npwd:addContacts',
+  GET_CONTACTS = 'npwd-contact-getAll',
+  ADD_CONTACT = 'npwd-contact-add',
   UPDATE_CONTACT = 'npwd:updateContact',
   DELETE_CONTACT = 'npwd:deleteContact',
+  // Used to fill in information through an export event
+  ADD_CONTACT_EXPORT = 'npwd:addContactExport',
+}
+
+export interface AddContactExportData {
+  name?: string;
+  number: string;
+  avatar?: string;
 }

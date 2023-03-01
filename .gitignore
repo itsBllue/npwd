@@ -1,6 +1,8 @@
 # No IDE Folders
 .idea
 
+.docker
+
 npwd_temp
 
 resources/html
@@ -11,6 +13,9 @@ phone/.eslintcache
 node_modules
 build
 dist
+
+
+.turbo
 
 # Error Logs
 npm-debug.log*
@@ -25,3 +30,6 @@ sv_npwd.log
 
 # FXServer Yarn
 .yarn.installed
+
+# Temporary image/audio storage
+uploads
